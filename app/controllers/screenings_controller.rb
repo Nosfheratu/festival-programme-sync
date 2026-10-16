@@ -2,7 +2,8 @@ class ScreeningsController < ApplicationController
   def index
     @venues = Venue.order(:name)
 
-    @screenings = Screening.order(:starts_at)
+    @screenings = Screening.joins(:film).order(:starts_at)
+    @screenings = @screenings.where("films.title LIKE ?", "%#{params[:q]}%") if params[:q].present?
     @screenings = @screenings.where(venue_id: params[:venue_id]) if params[:venue_id].present?
 
     if params[:date].present?
