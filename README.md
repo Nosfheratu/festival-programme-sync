@@ -90,3 +90,7 @@ Sync `generation=1`, then `generation=2`, and check the database is right. Then 
 ## Submitting
 
 A private git repo with your commits. Please don't squash.
+
+### Personal notes
+
+What I'd do different? well, due to the short time, the code used to make external api call could be moved to a separated service class or interactor, I changed the query in the screenings view with joins clause to avoid n+1 query I identified there, and maybe we could to perform some kind of memoization to improve the performance and app speed.
