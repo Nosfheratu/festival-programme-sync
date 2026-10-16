@@ -6,8 +6,8 @@ class VenueSyncJob < ApplicationJob
     # response = connection.get('/mock_api/screenings')
     response = connection.get('/mock_api/screenings?generation=2')
 
-    screenings = JSON.parse(response.body).fetch("screenings")
-    payload = screenings.map{|screening| screening.fetch("venue")}
+    payload = JSON.parse(response.body).fetch("screenings")
+    # payload = screenings.map{|screening| screening.fetch("venue")}
 
     VenueSync.new(payload).call
   end
