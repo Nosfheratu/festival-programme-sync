@@ -1,0 +1,4 @@
+venue_sync_job:
+  cron: "* * * * *"
+  class: "VenueSyncJob"
+  queue: default

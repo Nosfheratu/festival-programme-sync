@@ -2,7 +2,7 @@ class VenueSyncJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    connection = Faraday.new(url: 'http://localhost:3000')
+    connection = Faraday.new(url: ENV['FESTIVAL_API_URL'])
     # response = connection.get('/mock_api/screenings')
     response = connection.get('/mock_api/screenings?generation=2')
 
