@@ -16,5 +16,29 @@ RSpec.describe VenueSync do
         capacity: 320
       )
     end
+
+    context "the venue was just renamed" do
+      it "updates a venue name that already exists" do
+        origial_payload = [
+          { "id" => "VEN-01", "name" => "Grand Cinema", "address" => "12 Main Street", "capacity" => 320 }
+        ]
+
+        expect { VenueSync.new(origial_payload).call }.to change(Venue, :count).by(1)
+
+        new_name_payload = [
+          { "id" => "VEN-01", "name" => "Grand Movil Cinema", "address" => "12 Main Street", "capacity" => 320 }
+        ]
+
+        # Resync
+        expect { VenueSync.new(new_name_payload).call }.to change(Venue, :count).by(0)
+
+        venue = Venue.find_by(external_id: "VEN-01")
+        expect(venue).to have_attributes(
+          name: "Grand Movil Cinema",
+          address: "12 Main Street",
+          capacity: 320
+        )
+      end
+    end
   end
 end
